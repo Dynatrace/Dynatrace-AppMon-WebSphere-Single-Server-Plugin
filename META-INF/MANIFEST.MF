@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Require-Bundle: com.dynatrace.diagnostics.sdk
+Bundle-Vendor: dynaTrace 
+Bundle-ClassPath: .,lib/com.ibm.ws.admin.client_8.5.0.jar,lib/com.ibm.
+ ws.ejb.thinclient_8.5.0.jar,lib/com.ibm.ws.orb_8.5.0.jar,lib/javax.j2
+ ee.management.jar
+Bundle-Version: 1.0.0
+Bundle-Name: WebSphere Application Server Monitoring
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.dynatrace.diagnostics.plugins.jmx.websphere;s
+ ingleton:=true
+

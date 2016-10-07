@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!-- plugin.xml file written by dynaTrace Client 5.6.0 -->
+<plugin>
+  <extension point="com.dynatrace.diagnostics.pdk.pluginconfig" id="com.dynatrace.diagnostics.plugins.jmx.websphere" name="WebSphere Application Server Monitoring">
+    <information>
+      <category value="" />
+      <displayname value="WebSphere Application Server Monitoring" />
+      <description value="WebSphere Application Server Monitoring Plugin" />
+      <supportlevel value="unsupported" />
+    </information>
+    <configuration>
+      <property key="threadCount" label="WebSphere Monitoring Thread Count" type="string" description="How many threads to use when monitoring the domain. 1 to 10." default="10" multiline="false" />
+      <property key="metricTimeOut" label="Metric Timeout" type="string" description="How long do you want to wait for data to come back from the server? This value is in ms." default="5000" multiline="false" />
+      <property key="Environment" label="Environment" type="string" description="Name of the Environment." default="" multiline="false" />
+      <property key="dtServer" label="WebSphere Server" type="string" description="Weblogic Admin Server DNS or IP" default="" multiline="false" />
+      <property key="jmxPort" label="WebSphere SOAP Port" type="string" description="Port For the Admin Server" default="" multiline="false" />
+      <property key="securityEnabled" label="Security Enabled" type="boolean" description="Is Admin Security Turned On?&#xA;&#xA;This only matters when it is on. If it is off, the plugin will still work." default="true" />
+      <property key="keyStoreFile" label="Key Store" type="string" description="C:/test/DummyClientKeyFile.jks - Needs to be on the Collector" default="default" multiline="false" />
+      <property key="keyPassword" label="Key Password" type="password" description="Default WebAS" default="WebAS" />
+      <property key="trustStoreFile" label="Trust Store" type="string" description="C:/test/DummyClientTrustFile.jks - Needs to be on the Collector" default="default" multiline="false" />
+      <property key="trustPassword" label="Trust Password" type="password" description="Default WebAS" default="WebAS" />
+      <property key="JmxUserName" label="WebSphere User Name" type="string" description="WebSphere user" default="default" multiline="false" />
+      <property key="JmxPassword" label="WebSphere Password" type="password" description="Password for the WebSphere user" default="" />
+      <property key="Threads" label="Monitor Threads" type="boolean" description="My property description ..." default="true" />
+      <property key="Servlet" label="Monitor Servlet" type="boolean" description="My property description ..." default="true" />
+      <property key="WLServer" label="Monitor Server" type="boolean" description="My property description ..." default="true" />
+      <property key="JVM" label="Monitor JVM" type="boolean" description="This works with Jrocket or Sun JVMs.&#xD;&#xA;&#xD;&#xA;Other JVMs don't expose MBean data to Weblogic." default="true" />
+      <property key="JDBC" label="Monitor JDBC" type="boolean" description="My property description ..." default="true" />
+      <property key="DataSource" label="Monitor DataSource" type="boolean" description="My property description ..." default="true" />
+      <property key="ApplicationData" label="Monitor SessionData" type="boolean" description="Web App Component monitoring from the applications selected to monitor." default="true" />
+      <property key="Transaction" label="Monitor Transaction" type="boolean" description="My property description ..." default="true" />
+      <property key="AppDataMonitor" label="Application Data" type="string" description="List the applications you do not want session data. One per row.&#xA;-Session Data" default="default" multiline="true" />
+      <property key="ignoreThread" label="Thread Pool Ignore" type="string" description="Enter the Thread Pools you do not want to monitor. One entry per line." default="default" multiline="true" />
+      <property key="ignoreServlet" label="Servlet Ignore" type="string" description="List the Servlets you do not want to monitor. One per line." default="default" multiline="true" />
+      <property key="ignoreJDBC" label="JDBC Ignore" type="string" description="List the JDBC resoruces you don't want to monitor. One per line." default="default" multiline="true" />
+      <property key="ignoreDS" label="DataSource Ignore" type="string" description="List the DataSource you do not want to monitor. One per line." default="default" multiline="true" />
+    </configuration>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitor" id="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor" name="WebSphere Application Server Monitor">
+    <plugin configid="com.dynatrace.diagnostics.plugins.jmx.websphere" class="com.dynatrace.diagnostics.plugins.jmx.WebSphereMonitoring" />
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup1" name="WebSphere Connection Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="Connection Status" unit="number" description="If we can connect to the Admin Server&#xD;&#xA;&#xD;&#xA;Failed Connection = 0&#xD;&#xA;Successful Connection = 1" />
+      <metric defaultrate="purepath" name="WebSphere Monitor Time" unit="number" description="Time taken to monitor the domain." />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup2" name="WebSphere Thread Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="Thread Active Count" unit="number" description="Thread Active Count Current" />
+      <metric defaultrate="purepath" name="Thread Active Count High" unit="number" description="Thread Active Count High Water Mark" />
+      <metric defaultrate="purepath" name="Thread Active Count Low" unit="number" description="Thread Active Count Low Water Mark" />
+      <metric defaultrate="purepath" name="Thread Pool Size Current" unit="number" description="Thread Pool Size Current" />
+      <metric defaultrate="purepath" name="Thread Pool Size High" unit="number" description="Thread Pool Size High Water Mark" />
+      <metric defaultrate="purepath" name="Thread Pool Size Low" unit="number" description="Thread Pool Size Low Water Mark" />
+      <metric defaultrate="purepath" name="Thread Pool Size Lower" unit="number" description="Thread Pool Size Lower Bound" />
+      <metric defaultrate="purepath" name="Thread Pool Size Upper" unit="number" description="Thread Pool Size Upper Bound" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup3" name="WebSphere Servlet Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="Total Request Count" unit="number" description="Total Request Count" />
+      <metric defaultrate="purepath" name="Average Statistic Avg Min" unit="number" description="Average Statistic" />
+      <metric defaultrate="purepath" name="Average Statistic Avg Statistic" unit="number" description="Average Statistic" />
+      <metric defaultrate="purepath" name="Average Statistic Avg Max" unit="number" description="Average Statistic" />
+      <metric defaultrate="purepath" name="Average Statistic Avg Total" unit="number" description="Average Statistic" />
+      <metric defaultrate="purepath" name="Average Statistic Avg Count" unit="number" description="Average Statistic" />
+      <metric defaultrate="purepath" name="Average Statistic Avg Sum Sq" unit="ms" description="Average Statistic" />
+      <metric defaultrate="purepath" name="Time Statistic Avg Statistic" unit="number" description="TimeStatistic" />
+      <metric defaultrate="purepath" name="Time Statistic Avg Min" unit="number" description="Time Statistic" />
+      <metric defaultrate="purepath" name="Time Statistic Avg Max" unit="number" description="Time Statistic" />
+      <metric defaultrate="purepath" name="Time Statistic Avg Total" unit="number" description="Time Statistic" />
+      <metric defaultrate="purepath" name="Time Statistic Avg Count" unit="number" description="Time Statistic" />
+      <metric defaultrate="purepath" name="Time Statistic Avg Sum Sq" unit="number" description="Time Statistic" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup4" name="WebSphere Server Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="Node Status" unit="number" description="Node Status" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup5" name="WebSphere JVM Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="JVM High" unit="number" description="JVM High Water Mark" />
+      <metric defaultrate="purepath" name="JVM Low" unit="number" description="JVM Low Water Mark" />
+      <metric defaultrate="purepath" name="JVM Current" unit="number" description="JVM Current" />
+      <metric defaultrate="purepath" name="JVM Integral" unit="number" description="JVM Integral" />
+      <metric defaultrate="purepath" name="JVM Lower Bound" unit="number" description="JVM Lower Bound" />
+      <metric defaultrate="purepath" name="JVM Upper Bound" unit="number" description="JVM Upper Bound" />
+      <metric defaultrate="purepath" name="JVM Used Memory" unit="number" description="JVM Used Memory" />
+      <metric defaultrate="purepath" name="JVM Uptime" unit="number" description="JVM Uptime" />
+      <metric defaultrate="purepath" name="JVM CPU Usage" unit="number" description="JVM Process CPU Usage" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup6" name="WebSphere JDBC Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="JDBC Create Count" unit="number" description="JDBC Create Count" />
+      <metric defaultrate="purepath" name="Pool Size Low" unit="number" description="Pool Size Low Water Mark" />
+      <metric defaultrate="purepath" name="Pool Size High" unit="number" description="Pool Size High Water Mark" />
+      <metric defaultrate="purepath" name="Pool Size Current" unit="number" description="Pool Size Current" />
+      <metric defaultrate="purepath" name="Pool Size Integral" unit="number" description="Pool Size Integral" />
+      <metric defaultrate="purepath" name="Pool Size Lower Bound" unit="number" description="Pool Size Lower Bound" />
+      <metric defaultrate="purepath" name="Pool Size Upper" unit="number" description="Pool Size Upper Bound" />
+      <metric defaultrate="purepath" name="Free Pool Size Low" unit="number" description="Free Pool Size Low Water Mark" />
+      <metric defaultrate="purepath" name="Free Pool High" unit="number" description="Free Pool High Water Mark" />
+      <metric defaultrate="purepath" name="JDBC Close Count" unit="number" description="JDBC Close Count" />
+      <metric defaultrate="purepath" name="Free Pool Current" unit="number" description="Free Pool Current" />
+      <metric defaultrate="purepath" name="Free Pool Integral" unit="number" description="Free Pool Integral" />
+      <metric defaultrate="purepath" name="Free Pool Lower" unit="number" description="Free Pool Lower" />
+      <metric defaultrate="purepath" name="Free Pool Upper" unit="number" description="Free Pool Upper" />
+      <metric defaultrate="purepath" name="Waiting Thread Low" unit="number" description="Waiting Thread Low Water Mark" />
+      <metric defaultrate="purepath" name="Waiting Thread High" unit="number" description="Waiting Thread High Water Mark" />
+      <metric defaultrate="purepath" name="Waiting Thread Current" unit="number" description="Waiting Thread Current" />
+      <metric defaultrate="purepath" name="Waiting Thread Integral" unit="number" description="Waiting Thread Integral" />
+      <metric defaultrate="purepath" name="Percent Used Low" unit="number" description="Percent Used Low" />
+      <metric defaultrate="purepath" name="Percent Used High" unit="number" description="Percent Used High Water Mark" />
+      <metric defaultrate="purepath" name="Percent Used Current" unit="number" description="Percent Used Current" />
+      <metric defaultrate="purepath" name="Percent Used Integral" unit="number" description="Percent Used Integral" />
+      <metric defaultrate="purepath" name="Use Time Average" unit="number" description="Use Time Average" />
+      <metric defaultrate="purepath" name="Use Time Average Min" unit="number" description="Use Time Average Min" />
+      <metric defaultrate="purepath" name="Use Time Average Max" unit="number" description="Use Time Average Max" />
+      <metric defaultrate="purepath" name="Use Time Average Total" unit="number" description="Use Time Average Total" />
+      <metric defaultrate="purepath" name="Use Time Average Count" unit="number" description="Use Time Average Count" />
+      <metric defaultrate="purepath" name="Use Time Average SumSq" unit="number" description="Use Time Average SumSq" />
+      <metric defaultrate="purepath" name="Use Time" unit="number" description="Use Time Time Average" />
+      <metric defaultrate="purepath" name="Use Time Min" unit="number" description="Use Time Min" />
+      <metric defaultrate="purepath" name="Use Time Max" unit="number" description="Use Time Max" />
+      <metric defaultrate="purepath" name="Use Time Total" unit="number" description="Use Time Total" />
+      <metric defaultrate="purepath" name="Use Time Count" unit="number" description="Use Time Count" />
+      <metric defaultrate="purepath" name="Use Time SumSq" unit="number" description="Use Time SumSq" />
+      <metric defaultrate="purepath" name="Wait Time Average" unit="number" description="Wait Time Average" />
+      <metric defaultrate="purepath" name="Wait Time Average Min" unit="number" description="Wait Time Average Min" />
+      <metric defaultrate="purepath" name="Wait Time Average Max" unit="number" description="Wait Time Average Max" />
+      <metric defaultrate="purepath" name="Wait Time Average Total" unit="number" description="Wait Time Average Total" />
+      <metric defaultrate="purepath" name="Wait Time Average Count" unit="number" description="Wait Time Average Count" />
+      <metric defaultrate="purepath" name="Wait Time Average SumSq" unit="number" description="Wait Time Average SumSq" />
+      <metric defaultrate="purepath" name="Wait Time" unit="number" description="Wait Time Average" />
+      <metric defaultrate="purepath" name="Wait Time Min" unit="number" description="Wait Time Min" />
+      <metric defaultrate="purepath" name="Wait Time Max" unit="number" description="Wait Time Max" />
+      <metric defaultrate="purepath" name="Wait Time Total" unit="number" description="Wait Time Total" />
+      <metric defaultrate="purepath" name="Wait Time Count" unit="number" description="Wait Time Count" />
+      <metric defaultrate="purepath" name="Wait Time SumSq" unit="number" description="Wait Time SumSq" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup7" name="WebSphere DataSource Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="DataSource Status" unit="number" description="Lifecycle status:  0=Status request failed; 1=Active; 2=Paused; 3=Stopped; 4=Paused - Mixed: some of the ConnectionFactories, DataSources, and ActivationSpecs are Paused while others are active; 99=Failed" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup8" name="WebSphere Application Data Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="Low Water Mark" unit="number" description="Low Water Mark" />
+      <metric defaultrate="purepath" name="High Water Mark" unit="number" description="High Water Mark" />
+      <metric defaultrate="purepath" name="Sessions Current" unit="number" description="Sessions Current" />
+      <metric defaultrate="purepath" name="Integral" unit="number" description="Integral" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugins.jmx.websphere.metricgroup9" name="WebSphere Transaction Group">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugins.jmx.websphere.monitor">
+      <metric defaultrate="purepath" name="Active Transactions Count" unit="number" description="Active Count" />
+      <metric defaultrate="purepath" name="Transactions Committed Count" unit="number" description="Committed Count" />
+      <metric defaultrate="purepath" name="Transactions RolledBack Count" unit="number" description="RolledBack Count.." />
+    </metricgroup>
+  </extension>
+</plugin>
+
